@@ -1,6 +1,7 @@
 ﻿using Backend.Interfaces;
 using Backend.Models;
 using Backend.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,32 +27,24 @@ namespace Backend.Services
         {
             throw new NotImplementedException();
         }
-        public TasksViewModel GetTask(int id)
+        public UserTask GetTask(int id)
         {
-            var result = (from ut in _context.UserTasks
-                          join stat in _context.Statuses on ut.StatusId equals stat.StatusId
-                          join priority in _context.Priorities on ut.PriorityId equals priority.PriorityId
-                          where ut.TaskId == id
-                          select new TasksViewModel
-                          {
-                              Description = ut.Description,
-                              Note = ut.Note,
-                              ElapsedTime = ut.ElapsedTime,
-                              Name = ut.Name,
-                              EndDate = ut.EndDate,
-                              Priority = priority.Priority1,
-                              SolvingType = ut.SolvingType,
-                              StartDate = ut.StartDate,
-                              Status = stat.Name,
-                              TaskId = ut.TaskId,
-                              User = ut.UserId
-                          }).FirstOrDefault();
+            var result = _context.UserTasks.Where(task=>task.TaskId == id).FirstOrDefault();
             return result;
         }
 
-        public void UpdateTask(UserTask userTask)
+        public void UpdateTask(int id, UserTask userTask)
         {
-            throw new NotImplementedException();
+
+            _context.Entry(userTask).State = EntityState.Modified;
+
+            try
+            {
+                 _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+            }
         }
 
         IEnumerable<TasksViewModel> ITasks.GetAllTasks(int userID)
@@ -76,5 +69,10 @@ namespace Backend.Services
                           }).ToList();
             return result;
         }
+        private bool UserTaskExists(int id)
+        {
+            return _context.UserTasks.Any(e => e.TaskId == id);
+        }
+
     }
 }

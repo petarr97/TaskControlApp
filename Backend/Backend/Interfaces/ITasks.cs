@@ -10,9 +10,9 @@ namespace Backend.Interfaces
     public interface ITasks
     {
         int AddTask(UserTask newUserTask);
-        TasksViewModel GetTask(int id);
+        UserTask GetTask(int id);
         IEnumerable<TasksViewModel> GetAllTasks(int userID);
         void DeleteTask(int id);
-        void UpdateTask(UserTask userTask);
+        void UpdateTask(int id,UserTask userTask);
     }
 }

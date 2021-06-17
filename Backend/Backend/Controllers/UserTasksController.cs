@@ -39,7 +39,7 @@ namespace Backend.Controllers
 
         // GET: api/UserTasks/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TasksViewModel>> GetUserTask(int id)
+        public async Task<ActionResult<UserTask>> GetUserTask(int id)
         {
             var userTask = _taskService.GetTask(id);
 
@@ -62,11 +62,9 @@ namespace Backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(userTask).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                this._taskService.UpdateTask(id, userTask);
             }
             catch (DbUpdateConcurrencyException)
             {
