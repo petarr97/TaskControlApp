@@ -59,7 +59,7 @@ namespace Backend.Services
                               Note = ut.Note,
                               ElapsedTime = ut.ElapsedTime,
                               Name = ut.Name,
-                              EndDate = ut.EndDate,
+                              EndDate = ut.EndDate.ToString(),
                               Priority = priority.Priority1,
                               SolvingType = ut.SolvingType,
                               StartDate = ut.StartDate,
