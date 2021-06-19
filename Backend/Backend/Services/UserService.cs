@@ -17,7 +17,7 @@ namespace Backend.Services
         public ServiceResponseModel AddUser(RegisterUser newUser)
         {
 
-            User existingUser = _context.Users.Where(user => (user.Email == newUser.Email && user.Password == newUser.Password)).FirstOrDefault();
+            User existingUser = _context.Users.Where(user => (user.Email == newUser.Email)).FirstOrDefault();
             if (existingUser == null)
             {
                 User user = new User() { Email = newUser.Email, Password = newUser.Password, Name = newUser.Name, Surname = newUser.Surname, PhoneNumber = newUser.PhoneNumber };
