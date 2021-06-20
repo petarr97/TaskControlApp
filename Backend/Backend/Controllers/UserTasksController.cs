@@ -33,8 +33,15 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TasksViewModel>>> GetUserTasks(int userID)
         {
-            IEnumerable<TasksViewModel> taskList = _taskService.GetAllTasks(userID);
-            return Ok(taskList);
+            try
+            {
+                IEnumerable<TasksViewModel> taskList = _taskService.GetAllTasks(userID);
+                return Ok(taskList);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         // GET: api/UserTasks/5
@@ -87,9 +94,16 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult<UserTask>> PostUserTask(UserTask userTask)
         {
-            int taskID = _taskService.AddTask(userTask);
+            try
+            {
+                int taskID = _taskService.AddTask(userTask);
 
-            return CreatedAtAction("GetUserTask", new { id = taskID });
+                return CreatedAtAction("GetUserTask", new { id = taskID });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         // DELETE: api/UserTasks/5

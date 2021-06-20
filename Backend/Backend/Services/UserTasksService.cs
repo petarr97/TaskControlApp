@@ -65,7 +65,9 @@ namespace Backend.Services
                               StartDate = ut.StartDate,
                               Status = stat.Name,
                               TaskId = ut.TaskId,
-                              User = ut.UserId
+                              User = ut.UserId,
+                              StatusId = ut.StatusId,
+                              PriorityId = ut.PriorityId
                           }).ToList();
             return result;
         }
