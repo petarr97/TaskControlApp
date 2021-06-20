@@ -40,16 +40,16 @@ namespace Backend.Services
 
             try
             {
-                 _context.SaveChangesAsync();
+                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException e)
             {
             }
         }
 
-        IEnumerable<TasksViewModel> ITasks.GetAllTasks(int userID)
+         IEnumerable<TasksViewModel> ITasks.GetAllTasks(int userID)
         {
-            var result = (from ut in _context.UserTasks
+            var result =  (from ut in _context.UserTasks
                           join stat in _context.Statuses on ut.StatusId equals stat.StatusId
                           join priority in _context.Priorities on ut.PriorityId equals priority.PriorityId
                           where ut.UserId == userID
@@ -69,6 +69,7 @@ namespace Backend.Services
                               StatusId = ut.StatusId,
                               PriorityId = ut.PriorityId
                           }).ToList();
+
             return result;
         }
         private bool UserTaskExists(int id)

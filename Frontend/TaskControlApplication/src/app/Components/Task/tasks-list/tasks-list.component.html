@@ -1,0 +1,85 @@
+<div *ngIf="loading" id="overlay">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+<div *ngIf="!loading" class="viewComponentDiv">
+  <div class="task-container-1">
+    <div class="type-div"><label>Uraditi</label></div>
+
+    <div
+      *ngFor="let task of taskList1"
+      (click)="goToTask(task.taskId)"
+      class="task"
+    >
+      <div class="info-div">
+        <div class="color-div-{{ task.priorityId }}"></div>
+        <div class="task-{{ task.priorityId }}">
+          <label>{{ task.priority }} prioritet</label>
+        </div>
+        <div class="status-{{ task.statusId }}">
+          <label>{{ task.status }}</label>
+        </div>
+        <button class="btn btn-danger"><mat-icon>delete</mat-icon></button>
+      </div>
+      <div class="task-data">
+        <label class="taskName">{{ task.name }}</label>
+        <label class="taskDescription">{{ task.description }}</label>
+      </div>
+      <div class="expire-date">
+        <label *ngIf="task.endDate != null">Rok: {{ task.endDate }}</label>
+      </div>
+    </div>
+  </div>
+  <div class="task-container-2">
+    <div class="type-div"><label>U izradi</label></div>
+
+    <div
+      *ngFor="let task of taskList2"
+      (click)="goToTask(task.taskId)"
+      class="task"
+    >
+      <div class="info-div">
+        <div class="color-div-{{ task.priorityId }}"></div>
+        <div class="task-{{ task.priorityId }}">
+          <label>{{ task.priority }} prioritet</label>
+        </div>
+        <div class="status-{{ task.statusId }}">
+          <label>{{ task.status }}</label>
+        </div>
+        <button class="btn btn-danger"><mat-icon>delete</mat-icon></button>
+      </div>
+      <div class="task-data">
+        <label class="taskName">{{ task.name }}</label>
+        <label class="taskDescription">{{ task.description }}</label>
+      </div>
+      <div class="expire-date">
+        <label *ngIf="task.endDate != null">Rok: {{ task.endDate }}</label>
+      </div>
+    </div>
+  </div>
+  <div class="task-container-3">
+    <div class="type-div"><label>Završen</label></div>
+    <div
+      *ngFor="let task of taskList3"
+      (click)="goToTask(task.taskId)"
+      class="task"
+    >
+      <div class="info-div">
+        <div class="color-div-{{ task.priorityId }}"></div>
+        <div class="task-{{ task.priorityId }}">
+          <label>{{ task.priority }} prioritet</label>
+        </div>
+        <div class="status-{{ task.statusId }}">
+          <label>{{ task.status }}</label>
+        </div>
+        <button class="btn btn-danger"><mat-icon>delete</mat-icon></button>
+      </div>
+      <div class="task-data">
+        <label class="taskName">{{ task.name }}</label>
+        <label class="taskDescription">{{ task.description }}</label>
+      </div>
+      <div class="expire-date">
+        <label *ngIf="task.endDate != null">Rok: {{ task.endDate }}</label>
+      </div>
+    </div>
+  </div>
+</div>

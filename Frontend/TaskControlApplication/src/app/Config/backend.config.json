@@ -1,0 +1,7 @@
+{
+    "backendURL":"https://localhost:44370/",
+    "usersApi":"api/Users",
+    "taskApi":"api/UserTasks",
+    "statusApi":"api/Status",
+    "prioritiesApi":"api/Priorities"
+}

@@ -1,0 +1,212 @@
+<div *ngIf="loading" id="overlay">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+<div *ngIf="!loading" id="task-box">
+  <div class="inside">
+    <h1>{{ title }}</h1>
+    <form [formGroup]="taskForm">
+      <div class="form-field">
+        <input formControlName="Name" name="Name" placeholder="Naziv zadatka" />
+        <div
+          class="error-div"
+          *ngIf="
+            taskForm.get('Name')?.invalid &&
+            (taskForm.get('Name')?.dirty || taskForm.get('Name')?.touched)
+          "
+        >
+          <label *ngIf="taskForm.get('Name')?.errors?.required"
+            >Naziv zadatka je obavezno polje!</label
+          >
+          <label *ngIf="taskForm.get('Name')?.errors?.minlength"
+            >Naziv zadatka mora sadrzati minimalno 5 karaktera!</label
+          >
+          <label *ngIf="taskForm.get('Name')?.errors?.maxlength"
+            >Naziv zadatka moze sadrzati maksimalno 100 karaktera!</label
+          >
+        </div>
+      </div>
+      <div class="form-field">
+        <textarea
+          type="text"
+          formControlName="Description"
+          placeholder="Opis zadatka"
+        ></textarea>
+        <div
+          class="error-div"
+          *ngIf="
+            taskForm.get('Description')?.invalid &&
+            (taskForm.get('Description')?.dirty ||
+              taskForm.get('Description')?.touched)
+          "
+        >
+          <label *ngIf="taskForm.get('Description')?.errors?.minlength"
+            >Opis zadatka mora sadrzati minimalno 10 karaktera!</label
+          >
+          <label *ngIf="taskForm.get('Description')?.errors?.required"
+            >Opis zadatka je obavezno polje!</label
+          >
+          <label *ngIf="taskForm.get('Description')?.errors?.maxlength"
+            >Opis zadatka moze sadrzati maksimalno 500 karatkera!</label
+          >
+        </div>
+      </div>
+      <div class="form-field">
+        <input type="text" formControlName="Note" placeholder="Napomena" />
+        <div
+          class="error-div"
+          *ngIf="
+            taskForm.get('Note')?.invalid &&
+            (taskForm.get('Note')?.dirty || taskForm.get('Note')?.touched)
+          "
+        >
+          <label *ngIf="taskForm.get('Note')?.errors?.minlength"
+            >Napomena mora sadrzati minimalno 10 karaktera!</label
+          >
+          <label *ngIf="taskForm.get('Note')?.errors?.required"
+            >Napomena je obavezno polje!</label
+          >
+          <label *ngIf="taskForm.get('Note')?.errors?.maxlength"
+            >Napomena moze sadrzati maksimalno 200 karatkera!</label
+          >
+        </div>
+      </div>
+      <div class="form-field">
+        <input
+          type="text"
+          formControlName="ElapsedTime"
+          placeholder="Potrošeno vrijeme"
+          *ngIf="isEdit"
+        />
+      </div>
+      <div
+        class="error-div"
+        *ngIf="
+          taskForm.get('ElapsedTime')?.invalid &&
+          (taskForm.get('ElapsedTime')?.dirty ||
+            taskForm.get('ElapsedTime')?.touched)
+        "
+      >
+        <label>Potrošeno vrijeme mora biti broj (broj potrošenih sati)!</label>
+      </div>
+
+      <div class="form-field">
+        <input
+          type="text"
+          formControlName="SolvingType"
+          placeholder="Način rješavanja"
+          *ngIf="isEdit"
+        />
+      </div>
+      <div class="form-field">
+        <label>Status zadatka</label>
+        <select formControlName="StatusId">
+          <option selected [value]="0">Izaberite</option>
+          <option *ngFor="let stat of statusList" [value]="stat.id">
+            {{ stat.value }}
+          </option>
+        </select>
+        <div
+          class="error-div"
+          *ngIf="
+            (taskForm.get('StatusId')?.invalid ||
+              taskForm.get('StatusId')?.value == 0) &&
+            (taskForm.get('StatusId')?.dirty ||
+              taskForm.get('StatusId')?.touched)
+          "
+        >
+          <label>Status je obavezno polje!</label>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Prioritet zadatka</label>
+        <select formControlName="PriorityId">
+          <option [value]="0" selected="selected">Izaberite</option>
+          <option *ngFor="let priority of priorityList" [value]="priority.id">
+            {{ priority.value }}
+          </option>
+        </select>
+        <div
+          class="error-div"
+          *ngIf="
+            (taskForm.get('PriorityId')?.invalid ||
+              taskForm.get('PriorityId')?.value == 0) &&
+            (taskForm.get('PriorityId')?.dirty ||
+              taskForm.get('PriorityId')?.touched)
+          "
+        >
+          <label>Prioritet zadatka je obavezno polje!</label>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="datepicker-div">
+          <label class="calendar-label">Datum početka </label>
+          <input
+            class="form-control date"
+            placeholder="Unesite datum"
+            name="dp"
+            formControlName="StartDate"
+            ngbDatepicker
+            #d="ngbDatepicker"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary calendar"
+              (click)="d.toggle()"
+              type="button"
+            >
+              >
+            </button>
+          </div>
+          <div
+            class="error-div"
+            *ngIf="
+              taskForm.get('StartDate')?.invalid &&
+              (taskForm.get('StartDate')?.dirty ||
+                taskForm.get('StartDate')?.touched)
+            "
+          >
+            <label>Datum početka je obavezno polje!</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-field" *ngIf="isEdit">
+        <div class="datepicker-div">
+          <label class="calendar-label">Datum zavšetka </label>
+          <input
+            class="form-control date"
+            placeholder="Unesite datum"
+            name="dp"
+            formControlName="EndDate"
+            ngbDatepicker
+            #e="ngbDatepicker"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary calendar"
+              (click)="e.toggle()"
+              type="button"
+            >
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+      <input
+        *ngIf="!isEdit"
+        type="button"
+        class="btn btn-info"
+        id="create-btn"
+        value="Kreiraj novi zadatak"
+        (click)="createTask()"
+      />
+      <input
+        *ngIf="isEdit"
+        type="button"
+        class="btn btn-info"
+        id="edit-btn"
+        value="Izmjeni zadatak"
+        (click)="editTask()"
+      />
+    </form>
+  </div>
+</div>

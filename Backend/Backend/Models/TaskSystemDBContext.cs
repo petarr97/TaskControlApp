@@ -10,13 +10,17 @@ namespace Backend.Models
     {
         public TaskSystemDBContext()
         {
+
         }
 
         public TaskSystemDBContext(DbContextOptions<TaskSystemDBContext> options)
             : base(options)
         {
         }
-
+        public static string GetDefaultConnectionString()
+        {
+            return Startup.ConnectionString;
+        }
         public virtual DbSet<Priority> Priorities { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -26,7 +30,7 @@ namespace Backend.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-UMNO0G1;Database=TaskSystemDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(GetDefaultConnectionString());
             }
         }
 

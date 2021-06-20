@@ -69,40 +69,46 @@ namespace Backend.Controllers
                 return BadRequest();
             }
 
-            try
+            if (ModelState.IsValid)
             {
-                this._taskService.UpdateTask(id, userTask);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserTaskExists(id))
+                try
                 {
-                    return NotFound();
+                    this._taskService.UpdateTask(id, userTask);
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!UserTaskExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-            }
 
-            return NoContent();
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/UserTasks
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<UserTask>> PostUserTask(UserTask userTask)
         {
-            try
+
+            if (ModelState.IsValid)
             {
                 int taskID = _taskService.AddTask(userTask);
 
                 return CreatedAtAction("GetUserTask", new { id = taskID });
             }
-            catch(Exception e)
+            else
             {
-                return BadRequest(e);
+                return BadRequest();
             }
         }
 
