@@ -28,6 +28,10 @@ export class TasksService {
   tasksUpdated = new Subject<TasksViewModel[]>();
   taskModel: CreatTaskModel = {} as CreatTaskModel;
 
+  getTasksUpdated = () => this.tasksUpdated.asObservable();
+  clearParams = () => (this.params = null);
+  goToTasks = () => this.router.navigateByUrl('tasks');
+
   createTask(taskModel: CreatTaskModel) {
     taskModel.userId = this.authService.getUserId();
 
@@ -141,13 +145,4 @@ export class TasksService {
         this.tasksUpdated.next([...this.transfTasks]);
       });
   }
-
-  getTasksUpdated() {
-    return this.tasksUpdated.asObservable();
-  }
-
-  clearParams() {
-    this.params = null;
-  }
-  goToTasks = () => this.router.navigateByUrl('tasks');
 }

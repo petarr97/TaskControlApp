@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
   loginModel: LoginModel = { email: '', password: '' };
   loading: boolean = false;
+
   ngOnInit(): void {
     if (this.authService.getIsLoged()) this.router.navigateByUrl('tasks');
   }

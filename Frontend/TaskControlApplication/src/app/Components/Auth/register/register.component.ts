@@ -29,9 +29,10 @@ export class RegisterComponent implements OnInit {
     surname: '',
     phonenumber: '',
   };
-  passwordRepeat: string = '';
   loading: boolean = false;
   registerForm: FormGroup = {} as FormGroup;
+
+  goToLogin = () => this.router.navigateByUrl('login');
 
   createForm(): FormGroup {
     return new FormGroup({
@@ -96,18 +97,18 @@ export class RegisterComponent implements OnInit {
           })
       : this.alertService.getSwal(
           'Greška',
-          'Lozinka se ne poklapa',
+          'Lozinke se ne poklapaju',
           'error',
           (this.loading = false)
         );
   }
-  goToLogin = () => this.router.navigateByUrl('login');
-
+  //uporedjivanje passworda
   checkPassword = (): boolean =>
     this.registerForm.controls['password'].value ==
     this.registerForm.controls['password2'].value
       ? true
       : false;
+
   setRegisterModel(form: FormGroup): RegisterModel {
     return {
       email: form.controls['email'].value,

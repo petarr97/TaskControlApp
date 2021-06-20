@@ -6,7 +6,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthModel } from '../../Models/auth.model';
-import { map } from 'rxjs/operators';
 import { RegisterModel } from 'src/app/Models/register.model';
 import { RegisterResponseModel } from 'src/app/Models/register.response.model';
 import { HttpParams } from '@angular/common/http';
@@ -28,10 +27,10 @@ export class AuthService {
   isLoged = false;
   authListener = new Subject<boolean>();
 
-  getIsLoged = () => this.isLoged;
-  getUserId = () => this.authModel.UserId;
   getAuthListener = () => this.authListener.asObservable();
+  getIsLoged = () => this.isLoged;
   goToLogin = () => this.router.navigateByUrl('login');
+  getUserId = () => this.authModel.UserId;
 
   async login(loginModel: LoginModel) {
     await this.http

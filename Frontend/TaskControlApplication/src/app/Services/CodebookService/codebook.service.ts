@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CodebookModel } from 'src/app/Models/codebook.model';
 import config from '../../Config/backend.config.json';
-import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../AuthService/auth.service';
 import { AlertService } from '../AlertService/alert.service';
 

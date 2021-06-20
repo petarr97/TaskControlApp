@@ -1,19 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CreatTaskModel } from '../../../Models/task.create.model';
 import { TasksService } from 'src/app/Services/TaskService/tasks.service';
 import { CodebookService } from 'src/app/Services/CodebookService/codebook.service';
 import { BackendConfig } from 'src/app/Models/backend.config';
 import config from '../../../Config/backend.config.json';
 import { CodebookModel } from 'src/app/Models/codebook.model';
-import { DatePipe } from '@angular/common';
-import * as $ from 'jquery';
-import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/Services/AuthService/auth.service';
 import { AlertService } from 'src/app/Services/AlertService/alert.service';
-import { createFor } from 'typescript';
-import { trimTrailingNulls } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-create-task',
@@ -44,8 +40,6 @@ export class CreateTaskComponent implements OnInit {
   isEdit: boolean = false;
   title: string = '';
   taskId: string | null = null;
-  startDate: NgbDateStruct = {} as NgbDateStruct;
-  endDate: NgbDateStruct = {} as NgbDateStruct;
   taskForm: FormGroup = {} as FormGroup;
 
   //konfiguracioni
@@ -59,15 +53,13 @@ export class CreateTaskComponent implements OnInit {
           this.title = 'Kreiraj novi zadatak';
           this.isEdit = false;
           this.setDefaultFormValue(this.taskForm);
-          this.loading = false;
         } else {
           this.title = 'Izmjeni postojeći zadatak';
           this.isEdit = true;
           this.taskId = paramMap.get('taskId');
-          this.getExistingTask(this.taskId).then(() => {
-            this.loading = false;
-          });
+          this.getExistingTask(this.taskId).then(() => {});
         }
+        this.loading = false;
       }
     });
     this.getCodebooks();
@@ -119,8 +111,7 @@ export class CreateTaskComponent implements OnInit {
       this.alertService.getSwal('Greška', 'Neispravni podaci!', 'error', null);
       return;
     }
-    this.taskModel = this.createModelfromForm(this.taskForm, false);
-    this.taskService.createTask(this.taskModel);
+    this.taskService.createTask(this.createModelfromForm(this.taskForm, false));
   }
 
   getStatuses() {
@@ -171,13 +162,16 @@ export class CreateTaskComponent implements OnInit {
       return;
     }
 
-    this.taskModel = this.createModelfromForm(this.taskForm, true);
-    this.taskService.updateTask(this.taskId, this.taskModel);
+    this.taskService.updateTask(
+      this.taskId,
+      this.createModelfromForm(this.taskForm, true)
+    );
   }
 
   dateToString = (date: NgbDateStruct): string => {
     return date.year + '-' + date.month + '-' + date.day;
   };
+
   //konverzija datuma koji dobijemo sa bekenda u  strukturu datuma koja se koristi na formi
   setDate(date: Date | null): NgbDateStruct {
     if (date != null) {
@@ -200,6 +194,7 @@ export class CreateTaskComponent implements OnInit {
     }
     return true;
   }
+
   //kreiranje modela koji se salje na bekend
   createModelfromForm(form: FormGroup, editMode: boolean): CreatTaskModel {
     let endDate: Date | null;
@@ -227,6 +222,7 @@ export class CreateTaskComponent implements OnInit {
       taskId: taskId,
     };
   }
+
   //podesavanje defaultnih vrijednosti forme
   setDefaultFormValue(form: FormGroup) {
     form.setValue({
