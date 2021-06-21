@@ -158,3 +158,5 @@ C:\Users\Petar\Desktop\TasksControlApplication\Backend\Backend\obj\Debug\net5.0\
 C:\Users\Petar\Desktop\TasksControlApplication\Backend\Backend\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Petar\Desktop\TasksControlApplication\Backend\Backend\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\Petar\Desktop\TasksControlApplication\Backend\Backend\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
+C:\Users\Petar\Desktop\TasksControlApplication\Backend\Backend\bin\Debug\net5.0\BCrypt.Net-Next.dll
+C:\Users\Petar\Desktop\TasksControlApplication\Backend\Backend\bin\Debug\net5.0\BouncyCastle.Crypto.dll

@@ -153,9 +153,6 @@
 .task:hover {
   transform: scale(1.05);
 }
-.poster:hover {
-  transform: scale(1.05);
-}
 .info-div {
   text-align: left;
 }

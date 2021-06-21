@@ -44,8 +44,9 @@ namespace Backend
             services.AddScoped<IUser, UserService>();
             services.AddScoped<CodebookService>();
 
+
             //Autentifikacija
-            var key = "test key test key test kety test key";
+            var key = Configuration.GetSection("JwtKey").Value;
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

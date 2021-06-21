@@ -13,5 +13,6 @@ namespace Backend.Interfaces
         IEnumerable<User> GetAllUsers();
         void DeleteUser(int id);
         void UpdateUser(User user);
+
     }
 }

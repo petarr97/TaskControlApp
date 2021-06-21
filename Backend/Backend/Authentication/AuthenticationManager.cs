@@ -27,6 +27,7 @@ namespace Backend.Authentication
             try
             {
                 User user = _context.Users.Where(user => (user.Email == email && user.Password == password)).FirstOrDefault();
+
                 if (user == null)
                 {
                     return null;

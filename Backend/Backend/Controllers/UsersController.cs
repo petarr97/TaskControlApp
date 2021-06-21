@@ -87,12 +87,19 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(RegisterUser user)
         {
-            ServiceResponseModel serviceResponse = _userService.AddUser(user);
-            if (!serviceResponse.error)
+            if (ModelState.IsValid)
             {
+                ServiceResponseModel serviceResponse = _userService.AddUser(user);
+                if (!serviceResponse.error)
+                {
+                    return Ok(JsonConvert.SerializeObject(serviceResponse));
+                }
                 return Ok(JsonConvert.SerializeObject(serviceResponse));
             }
-            return Ok(JsonConvert.SerializeObject(serviceResponse));
+            else
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE: api/Users/5
@@ -120,7 +127,8 @@ namespace Backend.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] UserCredentials userCredentials)
         {
-            AuthModel authModel = _authenticationManager.Authenticate(userCredentials.Email, userCredentials.Password);
+
+            AuthModel authModel = _authenticationManager.Authenticate(userCredentials.Email,userCredentials.Password);
             if (authModel == null)
                 return Unauthorized();
             return Ok(JsonConvert.SerializeObject(authModel));
